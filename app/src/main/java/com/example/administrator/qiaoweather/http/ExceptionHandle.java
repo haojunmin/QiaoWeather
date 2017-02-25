@@ -12,7 +12,9 @@ import java.net.ConnectException;
 
 import retrofit2.HttpException;
 
-
+/**
+ * 处理异常
+ */
 public class ExceptionHandle {
 
     private static final int UNAUTHORIZED = 401;
@@ -62,7 +64,7 @@ public class ExceptionHandle {
             ex = new ResponeThrowable(e, ERROR.SSL_ERROR);
             ex.message = "证书验证失败";
             return ex;
-        } else if (e instanceof ConnectTimeoutException){
+        } else if (e instanceof ConnectTimeoutException) {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
@@ -70,8 +72,7 @@ public class ExceptionHandle {
             ex = new ResponeThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
-        }
-        else {
+        } else {
             ex = new ResponeThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
             return ex;

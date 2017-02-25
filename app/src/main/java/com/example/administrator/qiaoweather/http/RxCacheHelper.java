@@ -5,11 +5,13 @@ import android.util.Log;
 import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.enty.C;
 import com.example.administrator.qiaoweather.enty.HeFengWeather;
+import com.example.administrator.qiaoweather.enty.HeWeatherSearch;
 import com.example.administrator.qiaoweather.http.api.ApiInterface;
 import com.example.administrator.qiaoweather.http.api.CacheProviders;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -36,11 +38,25 @@ public class RxCacheHelper {
         cacheProviders = mRxCache.using(CacheProviders.class);
     }
 
-    public void fetchWeather(final String city, Observer<Reply<HeFengWeather>> subscriber) {
+    /**
+     * 查询城市的当天天气状况
+     *
+     * @param city
+     * @param observer
+     */
+    public void fetchWeather(final String city, BaseObserver<Reply<HeFengWeather>> observer) {
 
-        cacheProviders.mWeatherAPI(apiInterface.mWeatherAPI(city, C.KEY), new DynamicKey(city)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+        cacheProviders.mWeatherAPI(apiInterface.mWeatherAPI(city, C.KEY), new DynamicKey(city)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
         ;
     }
 
-
+    /**
+     * 搜索是否有这个城市
+     *
+     * @param city
+     * @param observer
+     */
+    public void queryWeather(String city, BaseObserver<Reply<HeWeatherSearch>> observer) {
+        cacheProviders.mSearch(apiInterface.mSearch(city, C.KEY), new DynamicKey(city)).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
+    }
 }

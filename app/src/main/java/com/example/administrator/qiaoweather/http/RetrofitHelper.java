@@ -17,9 +17,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-/**
- * Created by codeest on 2016/8/3.
- */
+
 public class RetrofitHelper {
 
     private static OkHttpClient okHttpClient = null;

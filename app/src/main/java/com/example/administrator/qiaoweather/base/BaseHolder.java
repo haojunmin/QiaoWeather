@@ -50,7 +50,10 @@ public abstract class BaseHolder<T> extends RecyclerView.ViewHolder implements V
      * 释放资源
      */
     protected void onRelease() {
-
+        if (unbinder != null && unbinder != Unbinder.EMPTY) {
+            unbinder.unbind();
+            unbinder=null;
+        }
     }
 
 

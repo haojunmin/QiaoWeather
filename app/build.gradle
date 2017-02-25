@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -20,10 +25,57 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     testCompile 'junit:junit:4.12'
+
+    //di
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.google.dagger:dagger:2.4'
+    apt 'com.google.dagger:dagger-compiler:2.4'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    //rxjava2
+    compile 'io.reactivex.rxjava2:rxjava:2.0.6'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    //okhttp3
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    //RxCache
+    compile 'com.github.VictorAlbertos.RxCache:runtime:1.8.0-2.x'
+    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
+    //butterknife
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    //multitype
+    compile 'me.drakeet.multitype:multitype:2.4.1'
+    //屏幕适配
+    compile 'com.zhy:autolayout:1.4.5'
+    // 图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //打印日志
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    //调试工具
+    compile 'com.facebook.stetho:stetho:1.4.2'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    //检查软件卡顿
+    compile 'com.github.markzhai:blockcanary-android:1.4.1'
+    // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
+    debugCompile 'com.github.markzhai:blockcanary-android:1.4.1'
+    releaseCompile 'com.github.markzhai:blockcanary-no-op:1.4.1'
+    //检查内存溢出
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

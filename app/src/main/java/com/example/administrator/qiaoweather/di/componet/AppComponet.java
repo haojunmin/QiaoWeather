@@ -3,7 +3,10 @@ package com.example.administrator.qiaoweather.di.componet;
 import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.db.RealmService;
 import com.example.administrator.qiaoweather.di.module.AppModule;
+import com.example.administrator.qiaoweather.http.RetrofitHelper;
+
 import javax.inject.Singleton;
+
 import dagger.Component;
 
 /**
@@ -16,5 +19,5 @@ public interface AppComponet {
 
     RealmService realmService();
 
-//    ImageModule imageModule();
+    RetrofitHelper retrofitHelper();
 }

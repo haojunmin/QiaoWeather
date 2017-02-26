@@ -43,17 +43,25 @@
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="96777bd85339b3e33c91e14228f5a20e" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="d78265c761d75f3736d5315bafdbe8a5" />
 
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".WelcomActivity">
+        <activity
+            android:name=".WelcomActivity"
+            android:theme="@style/AppTheme.NoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="com.amap.api.location.APSService" />
+
     </application>
 
 </manifest>

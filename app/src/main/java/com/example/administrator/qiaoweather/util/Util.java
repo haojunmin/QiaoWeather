@@ -208,6 +208,11 @@ public class Util {
         manager.setPrimaryClip(clipData);
     }
 
+    /**
+     * 获取SHA1值
+     * @param context
+     * @return
+     */
     public static String sHA1(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(

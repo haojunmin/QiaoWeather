@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <!--普通dialog-->
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>

@@ -78,6 +78,9 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     //
     compile 'com.android.support:multidex:1.0.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.2.0'
-    compile 'com.heinrichreimersoftware:material-intro:1.6'
+
+
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.2@aar'
+    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
+
 }

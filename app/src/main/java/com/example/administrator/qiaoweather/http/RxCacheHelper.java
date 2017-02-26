@@ -46,7 +46,7 @@ public class RxCacheHelper {
      */
     public void fetchWeather(final String city, BaseObserver<Reply<HeFengWeather>> observer) {
 
-        cacheProviders.mWeatherAPI(apiInterface.mWeatherAPI(city, C.KEY), new DynamicKey(city)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
+        cacheProviders.mWeatherAPI(apiInterface.mWeatherAPI(city, C.KEY), new DynamicKey(city)).unsubscribeOn(Schedulers.io()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
         ;
     }
 

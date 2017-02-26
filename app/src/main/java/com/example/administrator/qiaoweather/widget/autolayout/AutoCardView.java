@@ -7,10 +7,7 @@ import android.util.AttributeSet;
 import com.zhy.autolayout.AutoFrameLayout;
 import com.zhy.autolayout.utils.AutoLayoutHelper;
 
-/**
- * Created by jess on 9/3/16 21:40
- * Contact with jess.yan.effort@gmail.com
- */
+
 public class AutoCardView extends CardView
 {
     private final AutoLayoutHelper mHelper = new AutoLayoutHelper(this);

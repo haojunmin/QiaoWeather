@@ -8,13 +8,11 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jess.arms.R;
+import com.example.administrator.qiaoweather.R;
 import com.zhy.autolayout.utils.AutoUtils;
 import com.zhy.autolayout.utils.DimenUtils;
 
-/**
- * Created by jess on 16/4/14.
- */
+
 public class AutoTabLayout extends TabLayout
 {
     private static final int NO_VALID = -1;

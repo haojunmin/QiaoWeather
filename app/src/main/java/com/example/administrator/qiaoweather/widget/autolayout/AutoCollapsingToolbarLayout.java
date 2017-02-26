@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import com.zhy.autolayout.AutoLayoutInfo;
 import com.zhy.autolayout.utils.AutoLayoutHelper;
 
-/**
- * Created by jess on 16/4/14.
- */
+
 public class AutoCollapsingToolbarLayout extends CollapsingToolbarLayout {
     private AutoLayoutHelper mHelper = new AutoLayoutHelper(this);
 

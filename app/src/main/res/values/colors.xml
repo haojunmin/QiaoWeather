@@ -21,4 +21,5 @@
     <color name="color_dark_custom_fragment_1">#BF360C</color>
     <color name="color_dark_custom_fragment_2">#303F9F</color>
     <color name="color_dark_canteen">#ebeef0</color>
+    <color name="colorRipple">#803f51b5</color>
 </resources>

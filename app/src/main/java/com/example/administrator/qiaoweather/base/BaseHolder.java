@@ -52,7 +52,7 @@ public abstract class BaseHolder<T> extends RecyclerView.ViewHolder implements V
     protected void onRelease() {
         if (unbinder != null && unbinder != Unbinder.EMPTY) {
             unbinder.unbind();
-            unbinder=null;
+
         }
     }
 

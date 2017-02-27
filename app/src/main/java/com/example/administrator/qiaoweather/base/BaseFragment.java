@@ -13,6 +13,8 @@ import com.example.administrator.qiaoweather.di.componet.DaggerFragmentComponet;
 import com.example.administrator.qiaoweather.di.componet.FragmentComponet;
 import com.example.administrator.qiaoweather.di.module.FragmentModule;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -22,6 +24,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView {
 
+    @Inject
     protected T mPresenter;
     protected View mView;
     protected Activity mActivity;
@@ -50,7 +53,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.attachView(this);
+       // mPresenter.attachView(this);
         mUnbinder = ButterKnife.bind(this, view);
         initEventAndData();
     }
@@ -75,7 +78,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onDetach() {
         super.onDetach();
-        mView = null;
     }
 
     protected abstract void initInject();

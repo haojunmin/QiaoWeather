@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.di.componet.ActivityComponet;
 import com.example.administrator.qiaoweather.di.componet.DaggerActivityComponet;
 import com.example.administrator.qiaoweather.di.module.ActivityModule;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import javax.inject.Inject;
@@ -35,13 +37,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
         mContext = this;
         initInject();
         if (mPresenter != null) {
-            mPresenter.attachView(this);
+            Logger.d("oncreate");
+            // mPresenter.attachView(this);
         }
         initEventAndData();
     }
 
+
     protected ActivityComponet getActivityComponet() {
         return DaggerActivityComponet.builder()
+                .appComponet(App.getAppComponet())
                 .activityModule(getActivityModule()).build();
     }
 
@@ -52,9 +57,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
             mPresenter.detachView();
         }
         mUnbinder.unbind();
-        mUnbinder = null;
-        mPresenter = null;
-        mContext = null;
+
     }
 
     protected ActivityModule getActivityModule() {

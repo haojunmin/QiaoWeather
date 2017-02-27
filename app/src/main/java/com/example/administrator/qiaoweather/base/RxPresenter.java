@@ -1,5 +1,7 @@
 package com.example.administrator.qiaoweather.base;
 
+import com.orhanobut.logger.Logger;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -7,8 +9,7 @@ import io.reactivex.disposables.Disposable;
  * Created by Administrator on 2017/2/23.
  */
 
-public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
-    protected T mView;
+public abstract class RxPresenter implements BasePresenter {
     protected CompositeDisposable compositeDisposable;
 
     protected void addDisposable(Disposable disposable) {
@@ -21,18 +22,13 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
     protected void clearDisposable() {
         if (compositeDisposable != null) {
             compositeDisposable.clear();
-            compositeDisposable = null;
         }
     }
 
-    @Override
-    public void attachView(T view) {
-        mView = view;
-    }
 
     @Override
     public void detachView() {
-        mView = null;
+        Logger.d("destory");
         clearDisposable();
     }
 }

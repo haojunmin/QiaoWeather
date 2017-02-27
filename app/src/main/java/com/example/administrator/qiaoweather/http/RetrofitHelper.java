@@ -3,10 +3,21 @@ package com.example.administrator.qiaoweather.http;
 
 import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.BuildConfig;
+import com.example.administrator.qiaoweather.enty.C;
+import com.example.administrator.qiaoweather.enty.HeFengWeather;
+import com.example.administrator.qiaoweather.http.api.ApiInterface;
 import com.example.administrator.qiaoweather.util.DataHelper;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.Reply;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,10 +31,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     private static OkHttpClient okHttpClient = null;
+    private ApiInterface apiInterface;
 
     private void init() {
         initOkHttp();
-
+        apiInterface = getApiService(ApiInterface.HOST, ApiInterface.class);
     }
 
     public RetrofitHelper() {
@@ -61,5 +73,7 @@ public class RetrofitHelper {
         return retrofit.create(clz);
     }
 
-
+    public Observable<HeFengWeather> fetchWeather(final String city) {
+        return apiInterface.mWeatherAPI(city, C.KEY);
+    }
 }

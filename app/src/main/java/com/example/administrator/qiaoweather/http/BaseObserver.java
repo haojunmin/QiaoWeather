@@ -1,14 +1,15 @@
 package com.example.administrator.qiaoweather.http;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.example.administrator.qiaoweather.widget.LoadingDialog;
+import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
+
 
 
 public abstract class BaseObserver<T> implements Observer<T> {
@@ -20,7 +21,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        Timber.d(e);
+        Logger.d(e);
         if (e instanceof ExceptionHandle.ResponeThrowable) {
             onError((ExceptionHandle.ResponeThrowable) e);
         } else {
@@ -36,9 +37,6 @@ public abstract class BaseObserver<T> implements Observer<T> {
         LoadingDialog.showDialogForLoading(context);
     }
 
-    //protected abstract void hideDialog();
-
-    // protected abstract void showDialog();
 
     @Override
     public void onComplete() {

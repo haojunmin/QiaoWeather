@@ -6,16 +6,11 @@ import android.support.multidex.MultiDex;
 
 import com.example.administrator.qiaoweather.di.componet.AppComponet;
 import com.example.administrator.qiaoweather.di.componet.DaggerAppComponet;
-import com.example.administrator.qiaoweather.di.componet.DaggerImageComponet;
-import com.example.administrator.qiaoweather.di.componet.DaggerRxCacheComponet;
-import com.example.administrator.qiaoweather.di.componet.ImageComponet;
-import com.example.administrator.qiaoweather.di.componet.RxCacheComponet;
 import com.example.administrator.qiaoweather.di.module.AppModule;
-import com.example.administrator.qiaoweather.di.module.ImageModule;
-import com.example.administrator.qiaoweather.di.module.RxCacheModule;
 import com.example.administrator.qiaoweather.util.AppBlockCanaryContext;
 import com.facebook.stetho.Stetho;
 import com.github.moduth.blockcanary.BlockCanary;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -32,8 +27,7 @@ public class App extends Application {
     private static App instance;
     private static final String DB_NAME = "weather.realm";
     private static AppComponet mAppComponet;
-    private static RxCacheComponet mRxCacheComponet;
-    private static ImageComponet mImageComponet;
+
 
     public static synchronized App getInstance() {
         return instance;
@@ -58,31 +52,7 @@ public class App extends Application {
         MultiDex.install(this);
     }
 
-    /**
-     * 程序终止的时候运行
-     */
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        if (refWatcher != null) {
-            refWatcher = null;
-        }
 
-        if (instance != null) {
-            instance = null;
-        }
-        if (mAppComponet != null) {
-            mAppComponet = null;
-        }
-        if (mRxCacheComponet != null) {
-            mRxCacheComponet = null;
-        }
-        if (mImageComponet != null) {
-            mImageComponet = null;
-        }
-
-
-    }
 
     /**
      * 初始化数据库
@@ -101,19 +71,5 @@ public class App extends Application {
         return mAppComponet;
     }
 
-    public static RxCacheComponet getRxCacheComponet() {
-        if (mRxCacheComponet == null) {
-
-            mRxCacheComponet = DaggerRxCacheComponet.builder().rxCacheModule(new RxCacheModule()).build();
-        }
-        return mRxCacheComponet;
-    }
-
-    public static ImageComponet getImageComponet() {
-        if (mImageComponet == null) {
-            mImageComponet = DaggerImageComponet.builder().imageModule(new ImageModule()).build();
-        }
-        return mImageComponet;
-    }
 
 }

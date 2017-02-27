@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">QiaoWeather</string>
     <string name="loading">请稍后</string>
+    <string name="context_menu">更多</string>
 </resources>

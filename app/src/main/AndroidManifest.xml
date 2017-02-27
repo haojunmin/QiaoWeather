@@ -47,9 +47,7 @@
             android:name="com.amap.api.v2.apikey"
             android:value="d78265c761d75f3736d5315bafdbe8a5" />
 
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".WelcomActivity"
             android:theme="@style/AppTheme.NoBar">
@@ -62,6 +60,8 @@
 
         <service android:name="com.amap.api.location.APSService" />
 
+        <activity android:name=".CityListActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

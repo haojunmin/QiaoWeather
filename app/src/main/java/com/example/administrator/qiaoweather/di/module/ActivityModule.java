@@ -8,6 +8,9 @@ import dagger.Module;
 import dagger.Provides;
 
 
+/**
+ * 对外提供activity
+ */
 @Module
 public class ActivityModule {
     private Activity mActivity;

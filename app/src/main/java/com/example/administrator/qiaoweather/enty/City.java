@@ -1,13 +1,20 @@
 package com.example.administrator.qiaoweather.enty;
 
 
+import io.realm.RealmObject;
+
 /**
  * Created by Administrator on 2017/2/6.
  */
 
-public class City {
+public class City extends RealmObject {
 
     private String name;
+
+    public City()
+    {
+
+    }
 
     public City(String name) {
         this.name = name;

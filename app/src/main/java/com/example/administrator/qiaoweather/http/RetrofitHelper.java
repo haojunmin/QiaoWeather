@@ -5,9 +5,11 @@ import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.BuildConfig;
 import com.example.administrator.qiaoweather.enty.C;
 import com.example.administrator.qiaoweather.enty.HeFengWeather;
+import com.example.administrator.qiaoweather.enty.HeWeatherSearch;
 import com.example.administrator.qiaoweather.http.api.ApiInterface;
 import com.example.administrator.qiaoweather.util.DataHelper;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
-    private static OkHttpClient okHttpClient = null;
+    private OkHttpClient okHttpClient = null;
     private ApiInterface apiInterface;
 
     private void init() {
@@ -39,41 +41,54 @@ public class RetrofitHelper {
     }
 
     public RetrofitHelper() {
+        Logger.d("RetrofitHelper");
         init();
     }
 
-    private static void initOkHttp() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG) {
+    private void initOkHttp() {
+        if (okHttpClient == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            if (BuildConfig.DEBUG) {
 
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-            builder.addInterceptor(loggingInterceptor);
+                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+                builder.addInterceptor(loggingInterceptor);
+            }
+            File cacheFile = DataHelper.getCacheFile(App.getInstance());
+            Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
+            builder.cache(cache);
+            //设置超时
+            builder.connectTimeout(10, TimeUnit.SECONDS);
+            builder.readTimeout(20, TimeUnit.SECONDS);
+            builder.writeTimeout(20, TimeUnit.SECONDS);
+            //错误重连
+            builder.retryOnConnectionFailure(true);
+            builder.addNetworkInterceptor(new StethoInterceptor());
+            okHttpClient = builder.build();
         }
-        File cacheFile = DataHelper.getCacheFile(App.getInstance());
-        Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
-        builder.cache(cache);
-        //设置超时
-        builder.connectTimeout(10, TimeUnit.SECONDS);
-        builder.readTimeout(20, TimeUnit.SECONDS);
-        builder.writeTimeout(20, TimeUnit.SECONDS);
-        //错误重连
-        builder.retryOnConnectionFailure(true);
-        builder.addNetworkInterceptor(new StethoInterceptor());
-        okHttpClient = builder.build();
+
     }
 
+    Retrofit retrofit;
+
     public <T> T getApiService(String baseUrl, Class<T> clz) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+        }
+
         return retrofit.create(clz);
     }
 
     public Observable<HeFengWeather> fetchWeather(final String city) {
         return apiInterface.mWeatherAPI(city, C.KEY);
+    }
+
+    public Observable<HeWeatherSearch> mSearch(String city) {
+        return apiInterface.mSearch(city, C.KEY);
     }
 }

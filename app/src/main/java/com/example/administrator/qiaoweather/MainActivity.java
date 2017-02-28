@@ -17,8 +17,10 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.administrator.qiaoweather.base.BaseActivity;
 import com.example.administrator.qiaoweather.enty.BaseWeatherInfo;
+import com.example.administrator.qiaoweather.enty.City;
 import com.example.administrator.qiaoweather.enty.DailyForceastList;
 import com.example.administrator.qiaoweather.enty.HeFengWeather;
+import com.example.administrator.qiaoweather.enty.HeWeatherSearch;
 import com.example.administrator.qiaoweather.enty.HourlyForecastBeanList;
 import com.example.administrator.qiaoweather.presenter.MainPresenter;
 import com.example.administrator.qiaoweather.presenter.contact.MainInterface;
@@ -40,6 +42,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import me.drakeet.multitype.MultiTypeAdapter;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainInterface.View, OnMenuItemClickListener {
@@ -60,7 +64,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.setmView(this);
+
+        setTitle("瞧天气");
+
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,16 +81,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         mainPresenter.startLocation();
         fragmentManager = getSupportFragmentManager();
         initMenuFragment();
+
+
     }
 
-    private void showIndeterminateProgressDialog(boolean horizontal) {
-        materialDialog = new MaterialDialog.Builder(this)
-                .title("正在定位中")
-                .content("请稍后")
-                .progress(true, 0)
-                .progressIndeterminateStyle(horizontal)
-                .show();
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String city = intent.getStringExtra("city");
+        setTitle(city);
+        mPresenter.weather(city);
+        Logger.d("onNewIntent");
     }
+
 
     @Override
     protected void initInject() {
@@ -104,7 +114,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
 
     @Override
     public void startLocation() {
-        showIndeterminateProgressDialog(false);
+
     }
 
     @Override
@@ -114,6 +124,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
     @Override
     public void LocationFail() {
         ToastUtil.showLong("获取当前位置失败，请设定城市");
+    }
+
+    @Override
+    public void setViewTitle(String title) {
+        setTitle(title);
     }
 
     @Override
@@ -212,12 +227,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
             case 1:
                 intent = new Intent(MainActivity.this, CityListActivity.class);
                 startActivity(intent);
-                //  finish();
                 break;
             case 2:
                 intent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }

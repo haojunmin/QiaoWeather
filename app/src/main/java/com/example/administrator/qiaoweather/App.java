@@ -10,9 +10,9 @@ import com.example.administrator.qiaoweather.di.module.AppModule;
 import com.example.administrator.qiaoweather.util.AppBlockCanaryContext;
 import com.facebook.stetho.Stetho;
 import com.github.moduth.blockcanary.BlockCanary;
-import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -40,9 +40,18 @@ public class App extends Application {
         initRealm();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         refWatcher = LeakCanary.install(this);
-        //配置Strtho
-        Stetho.initializeWithDefaults(this);
+        //使用stetho查看realm数据库
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
 
+        mAppComponet = DaggerAppComponet.builder().appModule(new AppModule(this)).build();
+    }
+
+    public static AppComponet getmAppComponet() {
+        return mAppComponet;
     }
 
     @Override
@@ -52,24 +61,20 @@ public class App extends Application {
         MultiDex.install(this);
     }
 
-
+    RealmConfiguration realmConfiguration;
 
     /**
      * 初始化数据库
      */
     private void initRealm() {
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name(DB_NAME).build();
-        Realm.deleteRealm(config);
-        Realm.setDefaultConfiguration(config);
+        realmConfiguration = new RealmConfiguration
+                .Builder()
+                .name(DB_NAME)//如果你想設置個別資料庫名稱
+                .build();
     }
 
-    public static AppComponet getAppComponet() {
-        if (mAppComponet == null) {
-            mAppComponet = DaggerAppComponet.builder().appModule(new AppModule(instance)).build();
-        }
-        return mAppComponet;
+    public RealmConfiguration getRealmConfiguration() {
+        return realmConfiguration;
     }
-
-
 }

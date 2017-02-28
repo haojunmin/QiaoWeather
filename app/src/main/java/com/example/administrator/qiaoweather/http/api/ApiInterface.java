@@ -5,6 +5,7 @@ import com.example.administrator.qiaoweather.enty.HeFengWeather;
 import com.example.administrator.qiaoweather.enty.HeWeatherSearch;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

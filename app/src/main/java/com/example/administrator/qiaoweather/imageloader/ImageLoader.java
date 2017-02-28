@@ -5,10 +5,7 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * Created by jess on 8/5/16 15:57
- * contact with jess.yan.effort@gmail.com
- */
+
 @Singleton
 public final class ImageLoader {
     private BaseImageLoaderStrategy mStrategy;

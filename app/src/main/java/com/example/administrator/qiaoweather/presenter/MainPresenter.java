@@ -13,7 +13,6 @@ import com.example.administrator.qiaoweather.base.RxPresenter;
 import com.example.administrator.qiaoweather.enty.HeFengWeather;
 import com.example.administrator.qiaoweather.enty.LocationCity;
 import com.example.administrator.qiaoweather.http.RetrofitHelper;
-import com.example.administrator.qiaoweather.http.RxBus;
 import com.example.administrator.qiaoweather.presenter.contact.MainInterface;
 import com.example.administrator.qiaoweather.util.SharedPreferenceUtil;
 import com.example.administrator.qiaoweather.util.ToastUtil;
@@ -26,16 +25,11 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
+
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -47,7 +41,7 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = new AMapLocationClientOption();
     String mPreCity;
-    Disposable disposable;
+
     MainInterface.View mView;
 
     private RetrofitHelper retrofitHelper;
@@ -65,29 +59,22 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
         rxPermissions = new RxPermissions(activity);
     }
 
-    Disposable redisposable;
 
     @Override
-    public void weather(String city) {
+    public void weather(final String city) {
         Logger.d(mView);
-        redisposable = retrofitHelper.fetchWeather(mPreCity).subscribeOn(Schedulers.io())
+        addDisposable(retrofitHelper.fetchWeather(city).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<HeFengWeather>() {
                     @Override
                     public void accept(@NonNull HeFengWeather heFengWeather) throws Exception {
+                        mView.setViewTitle(city);
                         mView.getWeather(heFengWeather);
 
                     }
-                });
-        addDisposable(redisposable);
+                }));
     }
 
-
-    public void setmView(MainInterface.View View) {
-
-        // mView = View;
-        Logger.d(mView);
-    }
 
     RxPermissions rxPermissions;
 
@@ -98,7 +85,8 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
     public void startLocation() {
         Logger.d(mView);
 
-        disposable = rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION).observeOn(Schedulers.io())
+
+        addDisposable(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION).observeOn(Schedulers.io())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
@@ -106,7 +94,6 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
                         if (aBoolean) {
                             mPreCity = SharedPreferenceUtil.getInstance().getCityName();
 
-                            //  mView.startLocation();
                             if (!TextUtils.isEmpty(mPreCity)) {
                                 weather(mPreCity);
                             }
@@ -116,35 +103,14 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
                             ToastUtil.showLong("需要获取位置权限");
                         }
                     }
-                });
-        addDisposable(disposable);
+                }));
+
 
     }
 
 
-    DisposableObserver<HeFengWeather> disposableObserver = new DisposableObserver<HeFengWeather>() {
-        @Override
-        public void onNext(HeFengWeather o) {
-            mView.getWeather(o);
-            Logger.d(Thread.currentThread().getName());
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
-    };
-
-
     @Override
     public void stopLocation() {
-
-        Logger.d(mView);
         destoryLocation();
     }
 
@@ -164,15 +130,15 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        Logger.d(mView);
-        LocationCity locationCity;
+
+
         if (aMapLocation != null) {
             String result = Utils.getLocationStr(aMapLocation);
 
             if (aMapLocation.getErrorCode() == 0) {
                 String city = Util.replaceCity(aMapLocation.getCity());
                 if (!TextUtils.isEmpty(city)) {
-                    Logger.d("mPreCity" + mPreCity);
+                    Logger.d("mPreCity" + mPreCity + "city" + city);
                     if (city.equals(mPreCity)) {
 
                     } else {
@@ -183,22 +149,14 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
 
 
                 Logger.d(Util.replaceCity(aMapLocation.getCity()));
-                //locationCity = new LocationCity(Util.replaceCity(aMapLocation.getCity()));
-                // RxBus.getDefault().post(locationCity);
                 SharedPreferenceUtil.getInstance().setCityName(Util.replaceCity(aMapLocation.getCity()));
             } else {
                 mView.LocationFail();
-                //  locationCity = new LocationCity();
-                // locationCity.setCode(-1);
-                // RxBus.getDefault().post(locationCity);
+
             }
         } else {
             mView.LocationFail();
-            // locationCity = new LocationCity();
-            // locationCity.setCode(-1);
-            // RxBus.getDefault().post(locationCity);
         }
-
     }
 
     private void initLocation() {
@@ -235,7 +193,6 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
 
 
     private void location() {
-        Logger.d(mView);
         locationClient.startLocation();
     }
 }

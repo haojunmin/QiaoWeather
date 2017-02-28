@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.List;
 
 
@@ -16,6 +17,7 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<BaseHolder<
         super();
         this.mInfos = infos;
     }
+
 
     @Override
     public BaseHolder<T> onCreateViewHolder(ViewGroup parent, final int viewType) {
@@ -43,6 +45,10 @@ public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<BaseHolder<
         holder.setData(mInfos.get(position), position);
     }
 
+    public void setmInfos(List<T> mInfos) {
+        this.mInfos = mInfos;
+        notifyDataSetChanged();
+    }
 
     /**
      * 数据的个数

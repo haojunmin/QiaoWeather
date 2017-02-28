@@ -22,7 +22,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/2/24.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutActivity implements BaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutActivity {
 
     @Inject
     protected T mPresenter;
@@ -36,17 +36,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
         mUnbinder = ButterKnife.bind(this);
         mContext = this;
         initInject();
-        if (mPresenter != null) {
-            Logger.d("oncreate");
-            // mPresenter.attachView(this);
-        }
+
         initEventAndData();
     }
 
 
     protected ActivityComponet getActivityComponet() {
+
         return DaggerActivityComponet.builder()
-                .appComponet(App.getAppComponet())
+                .appComponet(App.getmAppComponet())
                 .activityModule(getActivityModule()).build();
     }
 
@@ -82,11 +80,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
         super.onResume();
     }
 
-
-    @Override
-    public void showError(String msg) {
-
-    }
 
     protected abstract void initInject();
 

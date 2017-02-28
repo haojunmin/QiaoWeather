@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2017/2/23.
+ * 通用的presenter
  */
 
 public abstract class RxPresenter implements BasePresenter {

@@ -7,11 +7,7 @@ import android.content.SharedPreferences;
 import com.example.administrator.qiaoweather.App;
 
 
-/**
- * Created by hugo on 2016/2/19 0019.
- * <p>
- * 设置相关 包括 sp 的写入
- */
+
 public class SharedPreferenceUtil {
 
     public static final String CITY_NAME = "城市";//选择城市

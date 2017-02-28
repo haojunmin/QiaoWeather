@@ -10,7 +10,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.administrator.qiaoweather"
-        minSdkVersion 17
+        minSdkVersion 20
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+
     }
 }
 
@@ -36,8 +39,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     //di
     compile 'javax.inject:javax.inject:1'
-    compile 'com.google.dagger:dagger:2.4'
-    apt 'com.google.dagger:dagger-compiler:2.4'
+    compile 'com.google.dagger:dagger:2.9'
+
+    apt 'com.google.dagger:dagger-compiler:2.9'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'javax.annotation:jsr250-api:1.0'
     //rxjava2
@@ -45,7 +49,6 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     //retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     //okhttp3
@@ -63,10 +66,10 @@ dependencies {
     compile 'com.zhy:autolayout:1.4.5'
     // 图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
     //调试工具
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    compile 'com.uphyca:stetho_realm:2.0.0'
     //检查软件卡顿
     compile 'com.github.markzhai:blockcanary-android:1.4.1'
     // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
@@ -85,5 +88,4 @@ dependencies {
     compile 'com.yalantis:contextmenu:1.0.7'
     //高德地图
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
-
 }

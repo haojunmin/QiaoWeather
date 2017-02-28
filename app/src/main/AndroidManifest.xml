@@ -47,7 +47,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="d78265c761d75f3736d5315bafdbe8a5" />
 
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WelcomActivity"
             android:theme="@style/AppTheme.NoBar">
@@ -60,8 +63,26 @@
 
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".CityListActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity
+            android:name=".CityListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name=".AddCityActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_add_city"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
     </application>
 
 </manifest>

@@ -2,4 +2,8 @@
     <string name="app_name">QiaoWeather</string>
     <string name="loading">请稍后</string>
     <string name="context_menu">更多</string>
+    <string name="citylist">城市列表</string>
+    <string name="addcity">添加城市</string>
+    <string name="title_activity_add_city">AddCityActivity</string>
+    <string name="app_html">https://github.com/haojunmin/QiaoWeather</string>
 </resources>

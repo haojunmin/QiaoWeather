@@ -22,4 +22,5 @@
     <color name="color_dark_custom_fragment_2">#303F9F</color>
     <color name="color_dark_canteen">#ebeef0</color>
     <color name="colorRipple">#803f51b5</color>
+    <color name="defaultTextColor">#6f6f6f</color>
 </resources>

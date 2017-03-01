@@ -3,12 +3,19 @@
 
 
 这个项目使用MVP模式
+
 在安卓当中如果在Main界面做太多耗时操作，会造成软件卡顿，所以有必要将数据处理工作和UI界面分离开，这就是使用MVP模式的原因
+
 在MVP模式里通常包含4个要素：
+
 (1)View:负责绘制UI元素、与用户进行交互(在Android中体现为Activity);
+
 (2)View interface:需要View实现的接口，View通过View interface与Presenter进行交互，降低耦合，方便进行单元测试;
+
 (3)Model:负责存储、检索、操纵数据(有时也实现一个Model interface用来降低耦合);
+
 (4)Presenter:作为View与Model交互的中间纽带，处理与用户交互的负责逻辑。
+
 
 使用Dagger2进行依赖注入
 在使用MVP框架以后需要解决一个问题就是Presenter和一些处理模块（比如网络连接模块，图片下载模块，数据库模块）如何注入，使用Dagger2 以后View层不用关心Presenter如果实现，包括它的构造方法，只需要将Presenter注入即可，还有就是在Presenter当中如果要使用一些模块，也可以通过注入的方式实现，这样他们之间的依赖性会变小，各自互不干扰，有利于软件修改和维护，

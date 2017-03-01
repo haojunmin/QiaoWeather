@@ -21,6 +21,8 @@
 
 在使用MVP框架以后需要解决一个问题就是Presenter和一些处理模块（比如网络连接模块，图片下载模块，数据库模块）如何注入，使用Dagger2 以后View层不用关心Presenter如果实现，包括它的构造方法，只需要将Presenter注入即可，还有就是在Presenter当中如果要使用一些模块，也可以通过注入的方式实现，这样他们之间的依赖性会变小，各自互不干扰，有利于软件修改和维护，
 
+Dagger2使用过程中可以会遇到 找不到符号这个错误可以把涉及到Model和Componet的地方先删除，然后重新 clean，rebuild一下
+
 
 使用RxJava2来解决异步请求
 
@@ -143,3 +145,6 @@ AutoLayout官方只默认提供了三个ViewGroup,AutoRelativeLayout,AutoLinearL
 对于屏幕适配，如果要自己做，可以参考下面这个网页
 
 http://www.jianshu.com/p/ec5a1a30694b
+
+我的手机号18510318682，微信号就是我的手机号，qq：1149598411
+我在开发过程中遇到很多坑，希望可以帮助到各位。

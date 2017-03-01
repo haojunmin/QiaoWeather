@@ -11,10 +11,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
-
-
 import com.example.administrator.qiaoweather.App;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

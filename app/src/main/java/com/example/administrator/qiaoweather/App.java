@@ -10,6 +10,7 @@ import com.example.administrator.qiaoweather.di.module.AppModule;
 import com.example.administrator.qiaoweather.util.AppBlockCanaryContext;
 import com.facebook.stetho.Stetho;
 import com.github.moduth.blockcanary.BlockCanary;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -52,6 +53,17 @@ public class App extends Application {
 
     public static AppComponet getmAppComponet() {
         return mAppComponet;
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Logger.d("onTerminate");
+        refWatcher=null;
+        realmConfiguration=null;
+        instance=null;
+        mAppComponet=null;
+
     }
 
     @Override

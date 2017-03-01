@@ -1,7 +1,6 @@
 package com.example.administrator.qiaoweather;
 
 
-
 import android.content.Intent;
 
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +10,7 @@ import android.widget.Button;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 
 import butterknife.BindView;
@@ -18,8 +18,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-
-public class WelcomActivity extends AppCompatActivity {
+/**
+ * 欢迎界面
+ */
+public class WelcomActivity extends AutoLayoutActivity {
 
 
     @BindView(R.id.btn_login)

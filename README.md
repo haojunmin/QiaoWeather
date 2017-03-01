@@ -89,7 +89,8 @@ Stetho还支持网络请求的查看，和抓包
 
 使用Butterknife用完以后记得及时清理
 
- if (unbinder != null && unbinder != Unbinder.EMPTY) {
+ if (unbinder != null && unbinder != Unbinder.EMPTY)
+ {
             unbinder.unbind();
 
         }

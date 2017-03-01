@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:paddingBottom="16dp"
     android:paddingTop="16dp"
@@ -48,4 +48,4 @@
             android:text="少云。最高12℃。东北风 10 到 15 km/h"/>
 
     </RelativeLayout>
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

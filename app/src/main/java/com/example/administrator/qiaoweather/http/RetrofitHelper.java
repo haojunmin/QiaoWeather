@@ -38,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHelper {
 
-    private OkHttpClient okHttpClient = null;
+    private static OkHttpClient okHttpClient = null;
     private ApiInterface apiInterface;
 
     private void init() {
@@ -51,7 +51,7 @@ public class RetrofitHelper {
         init();
     }
 
-    private void initOkHttp() {
+    private static void initOkHttp() {
         if (okHttpClient == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             if (BuildConfig.DEBUG) {
@@ -107,7 +107,7 @@ public class RetrofitHelper {
 
     }
 
-    Retrofit retrofit;
+    private static Retrofit retrofit;
 
     public <T> T getApiService(String baseUrl, Class<T> clz) {
         if (retrofit == null) {

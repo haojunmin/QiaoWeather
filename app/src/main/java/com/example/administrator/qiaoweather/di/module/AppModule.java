@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.RealmConfiguration;
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 
@@ -27,6 +28,7 @@ import io.victoralbertos.jolyglot.GsonSpeaker;
 @Module
 public class AppModule {
     private App app;
+    private static final String DB_NAME = "weather.realm";
 
     public AppModule(App app) {
         this.app = app;
@@ -40,8 +42,17 @@ public class AppModule {
 
     @Provides
     @Singleton
-    RealmService provideRealmService() {
-        return new RealmService(app);
+    RealmConfiguration provideRealmConfiguration() {
+        return new RealmConfiguration
+                .Builder()
+                .name(DB_NAME)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    RealmService provideRealmService(RealmConfiguration realmConfiguration) {
+        return new RealmService(realmConfiguration);
     }
 
     @Provides

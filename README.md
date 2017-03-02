@@ -146,5 +146,12 @@ AutoLayout官方只默认提供了三个ViewGroup,AutoRelativeLayout,AutoLinearL
 
 http://www.jianshu.com/p/ec5a1a30694b
 
+
+可以在开发者模式下开始GPU过度绘制，来查看UI的绘制情况
+
+
+可以在开发过程中使用StrictMode来对软件进行调试
+
+
 我的手机号18510318682，微信号就是我的手机号，qq：1149598411
 我在开发过程中遇到很多坑，希望可以帮助到各位。

@@ -62,7 +62,7 @@ public class DailForecastAdapter extends RecyclerView.Adapter<DailForecastAdapte
         return dailyForecastBeanList.size();
     }
 
-    public class DailForecastHolder extends RecyclerView.ViewHolder {
+    public static class DailForecastHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.forecast_date)
         TextView forecast_date;

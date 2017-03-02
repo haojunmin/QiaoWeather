@@ -32,7 +32,7 @@ public class SearchAdapter extends DefaultAdapter<HeWeatherSearch.HeWeather5Bean
         return R.layout.item_search;
     }
 
-    class SearchHolder extends BaseHolder<HeWeatherSearch.HeWeather5Bean> {
+    public static class SearchHolder extends BaseHolder<HeWeatherSearch.HeWeather5Bean> {
         @BindView(R.id.city)
         TextView city;
 

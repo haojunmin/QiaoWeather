@@ -47,7 +47,7 @@ public class CityAdapter extends DefaultAdapter2<RealmResults<City>> {
     }
 
 
-    class CityHolder extends BaseHolder<RealmResults<City>> {
+    public static class CityHolder extends BaseHolder<RealmResults<City>> {
         @BindView(R.id.city_name)
         TextView city_name;
 

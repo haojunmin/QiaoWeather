@@ -123,6 +123,8 @@ public class AddCityActivity extends BaseActivity<AddCityPresenter> implements A
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.closeRealm();
+        mPresenter.cleanView();
         DefaultAdapter.releaseAllHolder(recyclerView);
+        mPresenter = null;
     }
 }

@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +25,9 @@ import com.example.administrator.qiaoweather.enty.HeWeatherSearch;
 import com.example.administrator.qiaoweather.enty.HourlyForecastBeanList;
 import com.example.administrator.qiaoweather.presenter.MainPresenter;
 import com.example.administrator.qiaoweather.presenter.contact.MainInterface;
+import com.example.administrator.qiaoweather.util.SharedPreferenceUtil;
 import com.example.administrator.qiaoweather.util.ToastUtil;
+import com.example.administrator.qiaoweather.util.Util;
 import com.example.administrator.qiaoweather.widget.provider.ForceastProvider;
 import com.example.administrator.qiaoweather.widget.provider.HourInfoViewProvider;
 import com.example.administrator.qiaoweather.widget.provider.SuggestionViewProvider;
@@ -60,6 +63,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
     MainPresenter mainPresenter;
     ArrayList list = new ArrayList();
     FragmentManager fragmentManager;
+    String getCity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mainPresenter.startLocation();
+                getCity = SharedPreferenceUtil.getInstance().getCityName();
+                if (TextUtils.isEmpty(getCity)) {
+                    mainPresenter.startLocation();
+                } else {
+                    mPresenter.weather(getCity);
+                }
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -89,9 +98,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String city = intent.getStringExtra("city");
-        setTitle(city);
-        mPresenter.weather(city);
+        getCity = intent.getStringExtra("city");
+        SharedPreferenceUtil.getInstance().setCityName(getCity);
+        setTitle(getCity);
+        mPresenter.weather(getCity);
         Logger.d("onNewIntent");
     }
 
@@ -131,31 +141,49 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         setTitle(title);
     }
 
+    BaseWeatherInfo baseWeatherInfo;
+    HourlyForecastBeanList hourlyForecastBeanList;
+    HeFengWeather.HeWeather5Bean.SuggestionBean suggestionBean;
+    DailyForceastList dailyForceastList;
+
     @Override
     public void getWeather(HeFengWeather heFengWeather) {
         refreshLayout.setRefreshing(false);
         list.clear();
         multiTypeAdapter.notifyDataSetChanged();
         HeFengWeather.HeWeather5Bean heWeather5Bean = heFengWeather.getHeWeather5().get(0);
-        BaseWeatherInfo baseWeatherInfo = new BaseWeatherInfo(heWeather5Bean.getDaily_forecast().get(0), heWeather5Bean.getAqi().getCity(), heWeather5Bean.getNow());
+
+        //Aqi这个类可能会为空
+        if (heWeather5Bean.getAqi() == null) {
+            baseWeatherInfo = new BaseWeatherInfo(heWeather5Bean.getDaily_forecast().get(0), heWeather5Bean.getNow());
+
+        } else {
+            baseWeatherInfo = new BaseWeatherInfo(heWeather5Bean.getDaily_forecast().get(0), heWeather5Bean.getAqi().getCity(), heWeather5Bean.getNow());
+        }
+
         list.add(baseWeatherInfo);
         multiTypeAdapter.register(BaseWeatherInfo.class, new TemperatureProviderViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        HourlyForecastBeanList hourlyForecastBeanList = new HourlyForecastBeanList(heWeather5Bean.getHourly_forecast());
+        hourlyForecastBeanList = new HourlyForecastBeanList(heWeather5Bean.getHourly_forecast());
         list.add(hourlyForecastBeanList);
         multiTypeAdapter.register(HourlyForecastBeanList.class, new HourInfoViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        HeFengWeather.HeWeather5Bean.SuggestionBean suggestionBean = heWeather5Bean.getSuggestion();
+        suggestionBean = heWeather5Bean.getSuggestion();
         list.add(suggestionBean);
         multiTypeAdapter.register(HeFengWeather.HeWeather5Bean.SuggestionBean.class, new SuggestionViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        DailyForceastList dailyForceastList = new DailyForceastList(heWeather5Bean.getDaily_forecast());
+        dailyForceastList = new DailyForceastList(heWeather5Bean.getDaily_forecast());
         list.add(dailyForceastList);
         multiTypeAdapter.register(DailyForceastList.class, new ForceastProvider());
         multiTypeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getWeatherFailed() {
+        ToastUtil.showLong("获取天气失败，请稍后再试");
     }
 
     @Override
@@ -164,6 +192,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         Logger.d("onDestroy");
         mainPresenter.stopLocation();
         mainPresenter.cleanView();
+        mainPresenter = null;
     }
 
     private void initMenuFragment() {

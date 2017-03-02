@@ -35,8 +35,11 @@ public class TemperatureProviderViewProvider
         holder.temp_flu.setText(baseWeatherInfo.getNowBean().getTmp());
         holder.temp_max.setText(String.format("↑ %s ℃", baseWeatherInfo.getDailyForecastBean().getTmp().getMax()));
         holder.temp_min.setText(String.format("↑ %s ℃", baseWeatherInfo.getDailyForecastBean().getTmp().getMin()));
-        holder.temp_pm.setText(String.format("PM2.5: %s μg/m³", Util.safeText(baseWeatherInfo.getCityBean().getPm25())));
-        holder.temp_quality.setText(String.format("↑ %s ℃", baseWeatherInfo.getCityBean().getQlty()));
+        if (baseWeatherInfo.getCityBean() != null) {
+            holder.temp_pm.setText(String.format("PM2.5: %s μg/m³", Util.safeText(baseWeatherInfo.getCityBean().getPm25())));
+            holder.temp_quality.setText(String.format("↑ %s ℃", baseWeatherInfo.getCityBean().getQlty()));
+        }
+
 
     }
 

@@ -109,6 +109,8 @@ public class CityListActivity extends BaseActivity<CityListPresenter> implements
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.closeRealm();
+        mPresenter.cleanView();
         DefaultAdapter2.releaseAllHolder(recyclerView);
+        mPresenter=null;
     }
 }

@@ -5,6 +5,7 @@ import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.enty.City;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -12,15 +13,18 @@ import io.realm.RealmResults;
  */
 
 public class RealmService {
-    private Realm mRealm;
+    private static Realm mRealm;
     App mApp;
 
-    public RealmService(App app) {
-        this.mApp = app;
+    RealmConfiguration realmConfiguration;
+
+    public RealmService(RealmConfiguration realmConfiguration) {
+        this.realmConfiguration = realmConfiguration;
     }
 
     public Realm getmRealm() {
-        mRealm = Realm.getInstance(mApp.getRealmConfiguration());
+        mRealm = Realm.getInstance(realmConfiguration);
+
         return mRealm;
     }
 

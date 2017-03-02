@@ -7,15 +7,20 @@ import java.util.List;
  * Created by Administrator on 2017/1/20.
  */
 
-public class HeFengWeather  implements Serializable{
+public class HeFengWeather implements Serializable {
+    @Override
+    public String toString() {
+        return "HeFengWeather{" +
+                "HeWeather5=" + HeWeather5 +
+                '}';
+    }
 
-
-public static final int AqiBean=1;
-    public static final int BasicBean=2;
-    public static final int NowBean=3;
-    public static final int SuggestionBean=4;
-    public static final int DailyForecastBean=5;
-    public static final int HourlyForecastBean=6;
+    public static final int AqiBean = 1;
+    public static final int BasicBean = 2;
+    public static final int NowBean = 3;
+    public static final int SuggestionBean = 4;
+    public static final int DailyForecastBean = 5;
+    public static final int HourlyForecastBean = 6;
 
     private List<HeWeather5Bean> HeWeather5;
 
@@ -28,8 +33,7 @@ public static final int AqiBean=1;
     }
 
 
-
-    public static class HeWeather5Bean implements Serializable{
+    public static class HeWeather5Bean implements Serializable {
         @Override
         public String toString() {
             return "HeWeather5Bean{" +

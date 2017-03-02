@@ -15,6 +15,11 @@ public class BaseWeatherInfo {
         this.nowBean = nowBean;
     }
 
+    public BaseWeatherInfo(HeFengWeather.HeWeather5Bean.DailyForecastBean dailyForecastBean, HeFengWeather.HeWeather5Bean.NowBean nowBean) {
+        this.dailyForecastBean = dailyForecastBean;
+        this.nowBean = nowBean;
+    }
+
     public BaseWeatherInfo(HeFengWeather.HeWeather5Bean.DailyForecastBean dailyForecastBean, HeFengWeather.HeWeather5Bean.AqiBean.CityBean cityBean) {
         this.dailyForecastBean = dailyForecastBean;
         this.cityBean = cityBean;

@@ -64,4 +64,8 @@ public class CityListPresenter extends RxPresenter implements CityListInterface.
     public void closeRealm() {
         realmService.closeRealm();
     }
+
+    public void cleanView() {
+        mView = null;
+    }
 }

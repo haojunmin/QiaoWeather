@@ -22,6 +22,7 @@ public interface MainInterface {
         void setViewTitle(String title);
 
         void getWeather(HeFengWeather weatherReply);
+        void getWeatherFailed();
     }
 
     interface Presenter extends BasePresenter {

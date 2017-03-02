@@ -61,4 +61,8 @@ public class AddCityPresenter extends RxPresenter implements AddCityInterface.Pe
     public void closeRealm() {
         realmService.closeRealm();
     }
+
+    public void cleanView() {
+        mView = null;
+    }
 }

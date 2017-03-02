@@ -7,6 +7,10 @@ import java.util.List;
  */
 
 public class DailyForceastList {
+    public DailyForceastList() {
+
+    }
+
     private List<HeFengWeather.HeWeather5Bean.DailyForecastBean> dailyForecastBeanList;
 
     public DailyForceastList(List<HeFengWeather.HeWeather5Bean.DailyForecastBean> dailyForecastBeanList) {

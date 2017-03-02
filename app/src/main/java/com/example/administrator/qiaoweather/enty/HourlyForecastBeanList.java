@@ -7,6 +7,10 @@ import java.util.List;
  */
 
 public class HourlyForecastBeanList {
+    public void setHourly_forecast(List<HeFengWeather.HeWeather5Bean.HourlyForecastBean> hourly_forecast) {
+        this.hourly_forecast = hourly_forecast;
+    }
+
     private List<HeFengWeather.HeWeather5Bean.HourlyForecastBean> hourly_forecast;
 
     public List<HeFengWeather.HeWeather5Bean.HourlyForecastBean> getHourly_forecast() {
@@ -18,6 +22,6 @@ public class HourlyForecastBeanList {
     }
 
     public HourlyForecastBeanList() {
-//        this.hourly_forecast = hourly_forecast;
+
     }
 }

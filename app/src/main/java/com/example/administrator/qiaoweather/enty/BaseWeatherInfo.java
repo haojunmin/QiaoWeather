@@ -9,6 +9,10 @@ public class BaseWeatherInfo {
     HeFengWeather.HeWeather5Bean.AqiBean.CityBean cityBean;
     HeFengWeather.HeWeather5Bean.NowBean nowBean;
 
+    public BaseWeatherInfo() {
+
+    }
+
     public BaseWeatherInfo(HeFengWeather.HeWeather5Bean.DailyForecastBean dailyForecastBean, HeFengWeather.HeWeather5Bean.AqiBean.CityBean cityBean, HeFengWeather.HeWeather5Bean.NowBean nowBean) {
         this.dailyForecastBean = dailyForecastBean;
         this.cityBean = cityBean;

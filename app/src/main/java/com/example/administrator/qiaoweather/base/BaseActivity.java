@@ -75,11 +75,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
         });
     }
 
+
     @Override
-    public void onBackPressed() {
-        //按返回键返回桌面
-        moveTaskToBack(true);
+    public void onLowMemory() {
+        super.onLowMemory();
     }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
+
 
     @Override
     protected void onResume() {

@@ -39,6 +39,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         if (BuildConfig.DEBUG) {
+            Logger.d("bug");
             // 针对线程的相关策略
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
@@ -49,6 +50,9 @@ public class App extends Application {
 
             // 针对VM的相关策略
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectActivityLeaks()
+                    .detectLeakedRegistrationObjects()
+                    .detectFileUriExposure()
                     .detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects()
                     .penaltyLog()
@@ -77,10 +81,10 @@ public class App extends Application {
     public void onTerminate() {
         super.onTerminate();
         Logger.d("onTerminate");
-        refWatcher=null;
-        realmConfiguration=null;
-        instance=null;
-        mAppComponet=null;
+        refWatcher = null;
+        realmConfiguration = null;
+        instance = null;
+        mAppComponet = null;
 
     }
 

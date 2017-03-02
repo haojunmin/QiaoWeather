@@ -53,6 +53,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".WelcomActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

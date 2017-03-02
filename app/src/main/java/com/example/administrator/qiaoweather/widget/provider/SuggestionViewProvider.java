@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.administrator.qiaoweather.R;
 import com.example.administrator.qiaoweather.enty.HeFengWeather;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,10 @@ public class SuggestionViewProvider
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull HeFengWeather.HeWeather5Bean.SuggestionBean suggestion) {
 
+        Logger.d(suggestion.toString());
+
+        Logger.d(suggestion.getDrsg().toString());
+//        Logger.d(suggestion);
         holder.cloth_brief.setText(String.format("穿衣指数--%s", suggestion.getDrsg().getBrf()));
         holder.cloth_txt.setText(suggestion.getDrsg().getTxt());
 

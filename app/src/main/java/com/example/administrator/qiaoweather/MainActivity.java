@@ -279,4 +279,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //按返回键返回桌面
+        moveTaskToBack(true);
+    }
 }

@@ -38,39 +38,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) {
-            Logger.d("bug");
-            // 针对线程的相关策略
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork()   // or .detectAll() for all detectable problems
-                    .penaltyLog()
-                    .build());
 
-            // 针对VM的相关策略
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectActivityLeaks()
-                    .detectLeakedRegistrationObjects()
-                    .detectFileUriExposure()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
-        }
         instance = this;
-        initRealm();
-        BlockCanary.install(this, new AppBlockCanaryContext()).start();
-        refWatcher = LeakCanary.install(this);
-        //使用stetho查看realm数据库
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build());
+
 
         mAppComponet = DaggerAppComponet.builder().appModule(new AppModule(this)).build();
+        InitService.startAction(this);
     }
 
     public static AppComponet getmAppComponet() {
@@ -81,18 +54,23 @@ public class App extends Application {
     public void onTerminate() {
         super.onTerminate();
         Logger.d("onTerminate");
-        refWatcher = null;
-        realmConfiguration = null;
+
         instance = null;
         mAppComponet = null;
 
     }
 
     @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Logger.d("onLowMemory");
+    }
+
+    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         //Android应用打破65K方法数限制的方法
-        MultiDex.install(this);
+        // MultiDex.install(this);
     }
 
     RealmConfiguration realmConfiguration;
@@ -102,10 +80,7 @@ public class App extends Application {
      */
     private void initRealm() {
         Realm.init(this);
-        realmConfiguration = new RealmConfiguration
-                .Builder()
-                .name(DB_NAME)//如果你想設置個別資料庫名稱
-                .build();
+
     }
 
     public RealmConfiguration getRealmConfiguration() {

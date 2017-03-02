@@ -39,6 +39,7 @@ import com.yalantis.contextmenu.lib.MenuParams;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +71,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         super.onCreate(savedInstanceState);
 
         setTitle("瞧天气");
+
+        baseWeatherInfoSoftReference = new SoftReference<BaseWeatherInfo>(new BaseWeatherInfo());
+        hourlyForecastBeanListSoftReference = new SoftReference<HourlyForecastBeanList>(new HourlyForecastBeanList());
+        dailyForceastListSoftReference = new SoftReference<DailyForceastList>(new DailyForceastList());
+
 
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,10 +147,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         setTitle(title);
     }
 
-    BaseWeatherInfo baseWeatherInfo;
-    HourlyForecastBeanList hourlyForecastBeanList;
-    HeFengWeather.HeWeather5Bean.SuggestionBean suggestionBean;
-    DailyForceastList dailyForceastList;
+
+    SoftReference<BaseWeatherInfo> baseWeatherInfoSoftReference;
+    SoftReference<HourlyForecastBeanList> hourlyForecastBeanListSoftReference;
+    SoftReference<HeFengWeather.HeWeather5Bean.SuggestionBean> suggestionBeanSoftReference;
+    SoftReference<DailyForceastList> dailyForceastListSoftReference;
 
     @Override
     public void getWeather(HeFengWeather heFengWeather) {
@@ -155,28 +162,32 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
 
         //Aqi这个类可能会为空
         if (heWeather5Bean.getAqi() == null) {
-            baseWeatherInfo = new BaseWeatherInfo(heWeather5Bean.getDaily_forecast().get(0), heWeather5Bean.getNow());
+            baseWeatherInfoSoftReference.get().setNowBean(heWeather5Bean.getNow());
+            baseWeatherInfoSoftReference.get().setDailyForecastBean(heWeather5Bean.getDaily_forecast().get(0));
 
         } else {
-            baseWeatherInfo = new BaseWeatherInfo(heWeather5Bean.getDaily_forecast().get(0), heWeather5Bean.getAqi().getCity(), heWeather5Bean.getNow());
+            baseWeatherInfoSoftReference.get().setNowBean(heWeather5Bean.getNow());
+            baseWeatherInfoSoftReference.get().setDailyForecastBean(heWeather5Bean.getDaily_forecast().get(0));
+            baseWeatherInfoSoftReference.get().setCityBean(heWeather5Bean.getAqi().getCity());
         }
 
-        list.add(baseWeatherInfo);
+        list.add(baseWeatherInfoSoftReference.get());
         multiTypeAdapter.register(BaseWeatherInfo.class, new TemperatureProviderViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        hourlyForecastBeanList = new HourlyForecastBeanList(heWeather5Bean.getHourly_forecast());
-        list.add(hourlyForecastBeanList);
+        hourlyForecastBeanListSoftReference.get().setHourly_forecast(heWeather5Bean.getHourly_forecast());
+        list.add(hourlyForecastBeanListSoftReference.get());
         multiTypeAdapter.register(HourlyForecastBeanList.class, new HourInfoViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        suggestionBean = heWeather5Bean.getSuggestion();
-        list.add(suggestionBean);
+
+        suggestionBeanSoftReference = new SoftReference<HeFengWeather.HeWeather5Bean.SuggestionBean>(heWeather5Bean.getSuggestion());
+        list.add(suggestionBeanSoftReference.get());
         multiTypeAdapter.register(HeFengWeather.HeWeather5Bean.SuggestionBean.class, new SuggestionViewProvider());
         multiTypeAdapter.notifyDataSetChanged();
 
-        dailyForceastList = new DailyForceastList(heWeather5Bean.getDaily_forecast());
-        list.add(dailyForceastList);
+        dailyForceastListSoftReference.get().setDailyForecastBeanList(heWeather5Bean.getDaily_forecast());
+        list.add(dailyForceastListSoftReference.get());
         multiTypeAdapter.register(DailyForceastList.class, new ForceastProvider());
         multiTypeAdapter.notifyDataSetChanged();
     }
@@ -193,6 +204,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         mainPresenter.stopLocation();
         mainPresenter.cleanView();
         mainPresenter = null;
+
+        baseWeatherInfoSoftReference.clear();
+        hourlyForecastBeanListSoftReference.clear();
+        suggestionBeanSoftReference.clear();
+        dailyForceastListSoftReference.clear();
     }
 
     private void initMenuFragment() {

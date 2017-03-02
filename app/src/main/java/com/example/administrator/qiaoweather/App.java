@@ -2,6 +2,7 @@ package com.example.administrator.qiaoweather;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.example.administrator.qiaoweather.di.componet.AppComponet;
@@ -37,6 +38,23 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG) {
+            // 针对线程的相关策略
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build());
+
+            // 针对VM的相关策略
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
         instance = this;
         initRealm();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();

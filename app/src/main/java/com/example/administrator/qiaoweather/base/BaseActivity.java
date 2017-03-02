@@ -76,6 +76,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
     }
 
     @Override
+    public void onBackPressed() {
+        //按返回键返回桌面
+        moveTaskToBack(true);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }

@@ -36,12 +36,20 @@ public class RealmService {
         this.mRealm = mRealm;
     }
 
+    /**
+     * 异步存储数据
+     *
+     * @param city
+     */
     public void save(final String city) {
-        mRealm.beginTransaction();
-        City p = mRealm.createObject(City.class);
-        p.setName(city);
-        mRealm.commitTransaction();
-        mRealm.close();
+        final City city1 = new City();
+        city1.setName(city);
+        mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insertOrUpdate(city1);
+            }
+        });
     }
 
     public void closeRealm() {

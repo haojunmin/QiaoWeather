@@ -2,6 +2,7 @@ package com.example.administrator.qiaoweather.enty;
 
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Administrator on 2017/2/6.
@@ -9,10 +10,10 @@ import io.realm.RealmObject;
 
 public class City extends RealmObject {
 
+    @PrimaryKey
     private String name;
 
-    public City()
-    {
+    public City() {
 
     }
 

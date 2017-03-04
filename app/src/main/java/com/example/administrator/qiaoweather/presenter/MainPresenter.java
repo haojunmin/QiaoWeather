@@ -68,13 +68,13 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<HeFengWeather>() {
                     @Override
                     public void accept(@NonNull HeFengWeather heFengWeather) throws Exception {
-
+                        Logger.d(Thread.currentThread().getName());
 
                         if (heFengWeather == null) {
                             mView.getWeatherFailed();
                             ;
                         } else {
-                            Logger.d(heFengWeather.toString());
+                           // Logger.d(heFengWeather.toString());
                             mView.setViewTitle(city);
                             mView.getWeather(heFengWeather);
                         }
@@ -105,6 +105,8 @@ public class MainPresenter extends RxPresenter implements MainInterface.Presente
                             if (!TextUtils.isEmpty(mPreCity)) {
                                 weather(mPreCity);
                             }
+                            Logger.d( "accept");
+
                             initLocation();
                             location();
                         } else {

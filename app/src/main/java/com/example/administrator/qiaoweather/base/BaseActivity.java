@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+
 import com.example.administrator.qiaoweather.App;
 import com.example.administrator.qiaoweather.di.componet.ActivityComponet;
 import com.example.administrator.qiaoweather.di.componet.DaggerActivityComponet;
 import com.example.administrator.qiaoweather.di.module.ActivityModule;
+import com.example.administrator.qiaoweather.util.SMFrameCallback;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -33,11 +35,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+      //  SMFrameCallback.getInstance().start();
         mUnbinder = ButterKnife.bind(this);
         mContext = this;
         initInject();
 
         initEventAndData();
+      //  ViewServer.get(this).addWindow(this);
     }
 
 
@@ -48,6 +52,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
                 .activityModule(getActivityModule()).build();
     }
 
+    protected void onResume() {
+        super.onResume();
+        //ViewServer.get(this).setFocusedWindow(this);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -55,7 +64,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
             mPresenter.detachView();
         }
         mUnbinder.unbind();
-
+        //ViewServer.get(this).removeWindow(this);
     }
 
     protected ActivityModule getActivityModule() {
@@ -87,10 +96,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AutoLayoutAc
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 
 
     protected abstract void initInject();

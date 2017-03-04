@@ -97,6 +97,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         fragmentManager = getSupportFragmentManager();
         initMenuFragment();
 
+        multiTypeAdapter.register(BaseWeatherInfo.class, new TemperatureProviderViewProvider());
+        multiTypeAdapter.register(HourlyForecastBeanList.class, new HourInfoViewProvider());
+        multiTypeAdapter.register(HeFengWeather.HeWeather5Bean.SuggestionBean.class, new SuggestionViewProvider());
+        multiTypeAdapter.register(DailyForceastList.class, new ForceastProvider());
+
 
     }
 
@@ -172,23 +177,23 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         }
 
         list.add(baseWeatherInfoSoftReference.get());
-        multiTypeAdapter.register(BaseWeatherInfo.class, new TemperatureProviderViewProvider());
-        multiTypeAdapter.notifyDataSetChanged();
+      //  multiTypeAdapter.register(BaseWeatherInfo.class, new TemperatureProviderViewProvider());
+       // multiTypeAdapter.notifyDataSetChanged();
 
         hourlyForecastBeanListSoftReference.get().setHourly_forecast(heWeather5Bean.getHourly_forecast());
         list.add(hourlyForecastBeanListSoftReference.get());
-        multiTypeAdapter.register(HourlyForecastBeanList.class, new HourInfoViewProvider());
-        multiTypeAdapter.notifyDataSetChanged();
+       // multiTypeAdapter.register(HourlyForecastBeanList.class, new HourInfoViewProvider());
+       // multiTypeAdapter.notifyDataSetChanged();
 
 
         suggestionBeanSoftReference = new SoftReference<HeFengWeather.HeWeather5Bean.SuggestionBean>(heWeather5Bean.getSuggestion());
         list.add(suggestionBeanSoftReference.get());
-        multiTypeAdapter.register(HeFengWeather.HeWeather5Bean.SuggestionBean.class, new SuggestionViewProvider());
-        multiTypeAdapter.notifyDataSetChanged();
+       // multiTypeAdapter.register(HeFengWeather.HeWeather5Bean.SuggestionBean.class, new SuggestionViewProvider());
+        //multiTypeAdapter.notifyDataSetChanged();
 
         dailyForceastListSoftReference.get().setDailyForecastBeanList(heWeather5Bean.getDaily_forecast());
         list.add(dailyForceastListSoftReference.get());
-        multiTypeAdapter.register(DailyForceastList.class, new ForceastProvider());
+        //multiTypeAdapter.register(DailyForceastList.class, new ForceastProvider());
         multiTypeAdapter.notifyDataSetChanged();
     }
 
@@ -209,6 +214,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainInt
         hourlyForecastBeanListSoftReference.clear();
         suggestionBeanSoftReference.clear();
         dailyForceastListSoftReference.clear();
+
+
     }
 
     private void initMenuFragment() {

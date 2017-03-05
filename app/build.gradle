@@ -40,7 +40,6 @@ dependencies {
     //di
     compile 'javax.inject:javax.inject:1'
     compile 'com.google.dagger:dagger:2.9'
-
     apt 'com.google.dagger:dagger-compiler:2.9'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'javax.annotation:jsr250-api:1.0'
@@ -88,6 +87,4 @@ dependencies {
     compile 'com.yalantis:contextmenu:1.0.7'
     //高德地图
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
-
-
 }

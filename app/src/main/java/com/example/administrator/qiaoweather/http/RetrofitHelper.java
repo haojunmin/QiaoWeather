@@ -17,11 +17,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.rx_cache2.DynamicKey;
-import io.rx_cache2.Reply;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -60,36 +55,38 @@ public class RetrofitHelper {
             builder.addInterceptor(loggingInterceptor);
         }
         File cacheFile = DataHelper.getCacheFile(App.getInstance());
-       Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
 
-        Interceptor cacheInterceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                if (!SystemUtil.isNetworkConnected()) {
-                    request = request.newBuilder()
-                            .cacheControl(CacheControl.FORCE_CACHE)
-                            .build();
-                }
-                Response response = chain.proceed(request);
-                if (SystemUtil.isNetworkConnected()) {
-                    int maxAge = 0;
-                    // 有网络时, 不缓存, 最大保存时长为0
-                    response.newBuilder()
-                            .header("Cache-Control", "public, max-age=" + maxAge)
-                            .removeHeader("Pragma")
-                            .build();
-                } else {
-                    // 无网络时，设置超时为4周
-                    int maxStale = 60 * 60 * 24 * 28;
-                    response.newBuilder()
-                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                            .removeHeader("Pragma")
-                            .build();
-                }
-                return response;
-            }
-        };
+//        Interceptor cacheInterceptor = new Interceptor() {
+//            @Override
+//            public Response intercept(Chain chain) throws IOException {
+//                Request request = chain.request();
+//                if (!SystemUtil.isNetworkConnected()) {
+//                    request = request.newBuilder()
+//                            .cacheControl(CacheControl.FORCE_CACHE)
+//                            .build();
+//                }
+//                Response response = chain.proceed(request);
+//                if (SystemUtil.isNetworkConnected()) {
+//                    int maxAge = 0;
+//                    // 有网络时, 不缓存, 最大保存时长为0
+//                    response.newBuilder()
+//                            .header("Cache-Control", "public, max-age=" + maxAge)
+//                            .removeHeader("Pragma")
+//                            .build();
+//                } else {
+//                    // 无网络时，设置超时为4周
+//                    int maxStale = 60 * 60 * 24 * 28;
+//                    response.newBuilder()
+//                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+//                            .removeHeader("Pragma")
+//                            .build();
+//                }
+//                return response;
+//            }
+//        };
+
+        OfflineRequestInterceptor cacheInterceptor = new OfflineRequestInterceptor();
         //设置缓存
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);
